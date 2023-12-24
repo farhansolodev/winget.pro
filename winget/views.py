@@ -7,12 +7,48 @@ from django.views.decorators.http import require_GET, require_POST
 from .models import Package
 from .util import load_tenant, return_jsonresponse, parse_jsonrequest
 
+
 @require_GET
 @load_tenant
 def index(*_):
     # The sole motivation for this view is that we want to be able to
     # reverse('winget:index') in instructions for setting up the winget source.
-    return HttpResponse("Please log in at /admin for instructions.")
+    return HttpResponse("""
+        <html>
+        <head>
+            <style>
+                body {
+                    font-family: 'Georgia', sans-serif;
+                    background-color: #f8f8f8;
+                    text-align: left;
+                    padding: 20px;
+                }
+
+                #cta {
+                    font-size: 20px;
+                    color: #333;
+                    padding: 20px;
+                    line-height: 1.5;
+                }
+
+                code {
+                    background-color: #e6e6e6;
+                    padding: 2px 5px;
+                    border-radius: 4px;
+                    font-family: 'Arial', sans-serif;
+                }
+            </style>
+        </head>
+        <body>
+            <p id="cta"></p>
+            <script>
+                const command = `winget source add -n farhansolodev -a ${window.location.href} -t "Microsoft.Rest"`;
+                document.getElementById('cta').innerHTML = `To add this repo to your winget CLI, run: <code>${command}</code>.`;
+            </script>
+        </body>
+    </html>
+    """)
+
 
 @require_GET
 @load_tenant
@@ -22,6 +58,7 @@ def information(*_):
         'SourceIdentifier': 'api.winget.pro',
         'ServerSupportedVersions': ['1.4.0', '1.5.0']
     }
+
 
 @require_POST
 @csrf_exempt
@@ -67,6 +104,7 @@ def manifestSearch(_, data, tenant):
         if package.version_set.exists()
     ]
 
+
 @require_GET
 @load_tenant
 def packageManifests(request, tenant, identifier):
@@ -80,6 +118,7 @@ def packageManifests(request, tenant, identifier):
         # See: https://github.com/microsoft/winget-cli-restsource/issues/170
         return HttpResponse(status=204)
     return _packageManifests(request, package)
+
 
 @return_jsonresponse
 def _packageManifests(request, package):
