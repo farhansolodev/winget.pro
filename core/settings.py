@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY') or \
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env('WINGET_PRO_DEBUG', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if os.getenv('WINGET_PRO_HOSTNAME'):
     ALLOWED_HOSTS.append(os.getenv('WINGET_PRO_HOSTNAME'))
