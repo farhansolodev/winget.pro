@@ -25,13 +25,14 @@ def index(*_):
                 }
 
                 #cta {
-                    font-size: 20px;
+                    font-size: 16px;
                     color: #333;
                     padding: 20px;
                     line-height: 1.5;
                 }
 
                 code {
+                    font-size: 22px;
                     background-color: #e6e6e6;
                     padding: 2px 5px;
                     border-radius: 4px;
@@ -43,7 +44,7 @@ def index(*_):
             <p id="cta"></p>
             <script>
                 const command = `winget source add -n farhansolodev -a ${window.location.href} -t "Microsoft.Rest"`;
-                document.getElementById('cta').innerHTML = `To add this repo to your winget CLI, run: <code>${command}</code>.`;
+                document.getElementById('cta').innerHTML = `To add this repo to your winget CLI, run:</br><code>${command}</code>`;
             </script>
         </body>
     </html>

@@ -9,15 +9,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY') or \
-             'django-insecure-n$m*a%3#nqpl5=(sp7v+!6r98mld#o4*(24!dawoma2i5(%lh'
+    'django-insecure-n$m*a%3#nqpl5=(sp7v+!6r98mld#o4*(24!dawoma2i5(%lh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_bool_from_env('DEBUG', True)
+DEBUG = get_bool_from_env('WINGET_PRO_DEBUG', True)
 
 ALLOWED_HOSTS = []
 
-if os.getenv('HOST_NAME'):
-    ALLOWED_HOSTS.append(os.getenv('HOST_NAME'))
+if os.getenv('WINGET_PRO_HOSTNAME'):
+    ALLOWED_HOSTS.append(os.getenv('WINGET_PRO_HOSTNAME'))
 
 if os.getenv('ALT_HOST_NAMES'):
     for host_name in os.getenv('ALT_HOST_NAMES').split(' '):
@@ -109,7 +109,7 @@ MEDIA_URL = 'media/'
 
 # Optional settings for serving files from S3 with django-storages:
 DEFAULT_FILE_STORAGE = os.getenv('DEFAULT_FILE_STORAGE') or \
-                       global_settings.DEFAULT_FILE_STORAGE
+    global_settings.DEFAULT_FILE_STORAGE
 
 if DEFAULT_FILE_STORAGE == 'storages.backends.s3boto3.S3Boto3Storage':
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
@@ -185,7 +185,8 @@ LOGGING = {
             'handlers': ['console']
         },
         'django.request': {
-            'level': 'ERROR' # Avoid "WARNING django.request Forbidden ..." etc.
+            # Avoid "WARNING django.request Forbidden ..." etc.
+            'level': 'ERROR'
         }
     }
 }
